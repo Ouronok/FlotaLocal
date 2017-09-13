@@ -67,7 +67,7 @@ public class Partida {
     					mar[hundido.getFilaInicial()+i][hundido.getColumnaInicial()] = -3;
     				}
     			}
-    			return -3; 
+    			return -3;
     		} else {
     			mar[f][c] = -2;
     			return -2;
@@ -213,6 +213,5 @@ public class Partida {
         resultado = resultado || ( (ori == 'V') && (fila+i == numFilas) );
         return resultado;
     }
-    
-    
+
 } // end class Partida
