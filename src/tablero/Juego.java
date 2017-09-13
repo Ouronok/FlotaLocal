@@ -16,17 +16,22 @@ public class Juego {
 	 * Implementa el juego 'Hundir la flota' mediante una interfaz gráfica (GUI)
 	 */
 
-	/** Parametros por defecto de una partida */
-	public static final int NUMFILAS=8, NUMCOLUMNAS=8, NUMBARCOS=6;
+	/**
+	 * Parametros por defecto de una partida
+	 */
+	public static final int NUMFILAS = 8, NUMCOLUMNAS = 8, NUMBARCOS = 6;
 
-	private GuiTablero guiTablero = null;			// El juego se encarga de crear y modificar la interfaz gráfica
+	private GuiTablero guiTablero = null;            // El juego se encarga de crear y modificar la interfaz gráfica
 	private Partida partida = null;                 // Objeto con los datos de la partida en juego
-	
-	/** Atributos de la partida guardados en el juego para simplificar su implementación */
+
+	/**
+	 * Atributos de la partida guardados en el juego para simplificar su implementación
+	 */
 	private int quedan = NUMBARCOS, disparos = 0;
 
 	/**
 	 * Programa principal. Crea y lanza un nuevo juego
+	 *
 	 * @param args
 	 */
 	public static void main(String[] args) {
@@ -61,13 +66,13 @@ public class Juego {
 		private JButton buttons[][] = null; // Botones asociados a las casillas de la partida
 
 		/**
-         * Constructor de una tablero dadas sus dimensiones
-         */
+		 * Constructor de una tablero dadas sus dimensiones
+		 */
 		GuiTablero(int numFilas, int numColumnas) {
 			this.numFilas = numFilas;
 			this.numColumnas = numColumnas;
 			frame = new JFrame();
-			frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);	
+			frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		}
 
 		/**
@@ -75,10 +80,10 @@ public class Juego {
 		 */
 		public void dibujaTablero() {
 			anyadeMenu();
-			anyadeGrid(numFilas, numColumnas);		
-			anyadePanelEstado("Intentos: " + disparos + "    Barcos restantes: " + quedan);		
+			anyadeGrid(numFilas, numColumnas);
+			anyadePanelEstado("Intentos: " + disparos + "    Barcos restantes: " + quedan);
 			frame.setSize(300, 300);
-			frame.setVisible(true);	
+			frame.setVisible(true);
 		} // end dibujaTablero
 
 		/**
@@ -89,7 +94,7 @@ public class Juego {
 			JMenuBar menuBar;
 			JMenu menu;
 			JMenuItem mossol, npar, salir;
-			
+
 			menuBar = new JMenuBar();
 			menu = new JMenu("Menu");
 			menuBar.add(menu);
@@ -108,19 +113,21 @@ public class Juego {
 		/**
 		 * Anyade el panel con las casillas del mar y sus etiquetas.
 		 * Cada casilla sera un boton con su correspondiente escuchador
-		 * @param nf	numero de filas
-		 * @param nc	numero de columnas
+		 *
+		 * @param nf numero de filas
+		 * @param nc numero de columnas
 		 */
 		private void anyadeGrid(int nf, int nc) {
-            // POR IMPLEMENTAR
+			// POR IMPLEMENTAR
 		} // end anyadeGrid
 
 
 		/**
 		 * Anyade el panel de estado al tablero
-		 * @param cadena	cadena inicial del panel de estado
+		 *
+		 * @param cadena cadena inicial del panel de estado
 		 */
-		private void anyadePanelEstado(String cadena) {	
+		private void anyadePanelEstado(String cadena) {
 			JPanel panelEstado = new JPanel();
 			estado = new JLabel(cadena);
 			panelEstado.add(estado);
@@ -130,7 +137,8 @@ public class Juego {
 
 		/**
 		 * Cambia la cadena mostrada en el panel de estado
-		 * @param cadenaEstado	nuevo estado
+		 *
+		 * @param cadenaEstado nuevo estado
 		 */
 		public void cambiaEstado(String cadenaEstado) {
 			estado.setText(cadenaEstado);
@@ -140,23 +148,25 @@ public class Juego {
 		 * Muestra la solucion de la partida y marca la partida como finalizada
 		 */
 		public void muestraSolucion() {
-            // POR IMPLEMENTAR
+			// POR IMPLEMENTAR
 		} // end muestraSolucion
 
 
 		/**
 		 * Pinta un barco como hundido en el tablero
-		 * @param cadenaBarco	cadena con los datos del barco codifificados como
-		 *                      "filaInicial#columnaInicial#orientacion#tamanyo"
+		 *
+		 * @param cadenaBarco cadena con los datos del barco codifificados como
+		 *                    "filaInicial#columnaInicial#orientacion#tamanyo"
 		 */
 		public void pintaBarcoHundido(String cadenaBarco) {
-            // POR IMPLEMENTAR
+			// POR IMPLEMENTAR
 		} // end pintaBarcoHundido
 
 		/**
 		 * Pinta un botón de un color dado
-		 * @param b			boton a pintar
-		 * @param color		color a usar
+		 *
+		 * @param b     boton a pintar
+		 * @param color color a usar
 		 */
 		public void pintaBoton(JButton b, Color color) {
 			b.setBackground(color);
@@ -179,7 +189,7 @@ public class Juego {
 		} // end limpiaTablero
 
 		/**
-		 * 	Destruye y libera la memoria de todos los componentes del frame
+		 * Destruye y libera la memoria de todos los componentes del frame
 		 */
 		public void liberaRecursos() {
 			frame.dispose();
@@ -194,47 +204,44 @@ public class Juego {
 
 	/**
 	 * Clase interna que escucha el menu de Opciones del tablero
-	 * 
 	 */
 	private class MenuListener implements ActionListener {
 
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			JMenuItem elem = (JMenuItem) e.getSource();
-	        String texto = elem.getText();
-	        JButton boton = (JButton)e.getSource();
-	        if(texto.equals("Mostrar Solucion")) {
-	            
-	        else if(texto.equals("Nueva Partida")) {
-	            
-	        else if(texto.equals("Salir")) {
-	            
-	        
-		} // end actionPerformed
+			String texto = elem.getText();
+			JButton boton = (JButton) e.getSource();
+			if (texto.equals("Mostrar Solucion")) {
 
-	} // end class MenuListener
+			} else if (texto.equals("Nueva Partida")) {
+
+			} else if (texto.equals("Salir")) {
 
 
+			} // end actionPerformed
 
-	/******************************************************************************************/
-	/*********************  CLASE INTERNA ButtonListener **************************************/
-	/******************************************************************************************/
-	/**
-	 * Clase interna que escucha cada uno de los botones del tablero
-	 * Para poder identificar el boton que ha generado el evento se pueden usar las propiedades
-	 * de los componentes, apoyandose en los metodos putClientProperty y getClientProperty
-	 */
-	private class ButtonListener implements ActionListener {
-
-		@Override
-		public void actionPerformed(ActionEvent e) {
-			JButton boton = (JButton)e.getSource();
-	        String texto = boton.getText();
-	        
-        } // end actionPerformed
-
-	} // end class ButtonListener
+		} // end class MenuListener
 
 
+		/******************************************************************************************/
+		/*********************  CLASE INTERNA ButtonListener **************************************/
+		/******************************************************************************************/
+		/**
+		 * Clase interna que escucha cada uno de los botones del tablero
+		 * Para poder identificar el boton que ha generado el evento se pueden usar las propiedades
+		 * de los componentes, apoyandose en los metodos putClientProperty y getClientProperty
+		 */
+		private class ButtonListener implements ActionListener {
 
-} // end class Juego
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				JButton boton = (JButton) e.getSource();
+				String texto = boton.getText();
+
+			} // end actionPerformed
+
+		} // end class ButtonListener
+
+	}
+}// end class Juego
