@@ -127,8 +127,34 @@ public class Juego {
 		 *            numero de columnas
 		 */
 		private void anyadeGrid(int nf, int nc) {
-			// TODO anyadeGrid
-		} // end anyadeGrid
+			buttons = new JButton[nf][nc];
+			ButtonListener blist = new ButtonListener();
+			GridLayout centroLay = new GridLayout(nf + 1, nc + 2);
+			JPanel centro = new JPanel();
+			centro.setLayout(centroLay);
+			centro.add(new JLabel(" "));
+			for (int i = 1; i <= nc; i++) {
+				centro.add(new JLabel(Integer.toString(i), SwingConstants.CENTER));
+			}
+			centro.add(new JLabel(" "));
+			char letra = 'A';
+			for (int i = 0; i < nf; i++) {
+				centro.add(new JLabel(String.valueOf((letra)), SwingConstants.CENTER));
+
+				for (int n = 0; n < nc; n++) {
+					buttons[i][n] = new JButton();
+					buttons[i][n].addActionListener(blist);
+					buttons[i][n].putClientProperty("fila", i);
+					buttons[i][n].putClientProperty("columna", n);
+					centro.add(buttons[i][n]);
+				}
+				centro.add(new JLabel(String.valueOf((letra)), SwingConstants.CENTER));
+				letra++;
+			}
+
+			frame.getContentPane().add(centro, BorderLayout.CENTER);
+
+		}
 
 		/**
 		 * Anyade el panel de estado al tablero
@@ -243,38 +269,41 @@ public class Juego {
 		public void actionPerformed(ActionEvent e) {
 			JMenuItem elem = (JMenuItem) e.getSource();
 			String texto = elem.getText();
-			JButton boton = (JButton) e.getSource();
 			if (texto.equals("Mostrar Solucion")) {
-
+				guiTablero.muestraSolucion();
 			} else if (texto.equals("Nueva Partida")) {
+				partida = new Partida(NUMFILAS, NUMCOLUMNAS, NUMBARCOS);
 
 			} else if (texto.equals("Salir")) {
+				System.exit(0);
+			}
 
-			} // end actionPerformed
+		} // end actionPerformed
 
-		} // end class MenuListener
+	} // end class MenuListener
 
-		/******************************************************************************************/
-		/*********************
-		 * CLASE INTERNA ButtonListener
-		 **************************************/
-		/******************************************************************************************/
-		/**
-		 * Clase interna que escucha cada uno de los botones del tablero Para
-		 * poder identificar el boton que ha generado el evento se pueden usar
-		 * las propiedades de los componentes, apoyandose en los metodos
-		 * putClientProperty y getClientProperty
-		 */
-		private class ButtonListener implements ActionListener {
+	/******************************************************************************************/
+	/*********************
+	 * CLASE INTERNA ButtonListener
+	 **************************************/
+	/******************************************************************************************/
+	/**
+	 * Clase interna que escucha cada uno de los botones del tablero Para poder
+	 * identificar el boton que ha generado el evento se pueden usar las
+	 * propiedades de los componentes, apoyandose en los metodos
+	 * putClientProperty y getClientProperty
+	 */
+	private class ButtonListener implements ActionListener {
 
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				JButton boton = (JButton) e.getSource();
-				String texto = boton.getText();
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			JButton boton = (JButton) e.getSource();
+			int fila = (int) boton.getClientProperty("fila");
+			int columna = (int) boton.getClientProperty("columna");
+			partida.pruebaCasilla(fila, columna);
 
-			} // end actionPerformed
+		} // end actionPerformed
 
-		} // end class ButtonListener
+	} // end class ButtonListener
 
-	}
 }// end class Juego
