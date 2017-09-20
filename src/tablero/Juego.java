@@ -214,6 +214,29 @@ public class Juego {
 		 */
 		public void pintaBarcoHundido(String cadenaBarco) {
 			// TODO pintaBarcoHundido
+			String []partes = cadenaBarco.split("#");
+			
+			int fInicial = Integer.parseInt(partes[0]);
+			int cInicial = Integer.parseInt(partes[1]);
+			String orientacion = partes[2];
+			int tamaño = Integer.parseInt(partes[3]);
+			
+			
+			if (orientacion == "V"){
+				int cont = fInicial;
+				while(cont < tamaño){
+					pintaBoton(buttons[cont][cInicial], new Color(255,0,0));
+					cont++;
+				}
+			} else {
+				int cont = cInicial;
+				while(cont < tamaño){
+					pintaBoton(buttons[fInicial][cont], new Color(255,0,0));
+					cont++;
+					}
+				}
+			}
+				
 
 		} // end pintaBarcoHundido
 
