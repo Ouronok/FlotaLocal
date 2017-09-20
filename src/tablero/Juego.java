@@ -301,7 +301,6 @@ public class Juego {
 			int fila = (int) boton.getClientProperty("fila");
 			int columna = (int) boton.getClientProperty("columna");
 			partida.pruebaCasilla(fila, columna);
-			int prueba;
 		} // end actionPerformed
 
 	} // end class ButtonListener
