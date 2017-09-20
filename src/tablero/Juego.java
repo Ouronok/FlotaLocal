@@ -21,11 +21,14 @@ public class Juego {
 	 */
 	public static final int NUMFILAS = 8, NUMCOLUMNAS = 8, NUMBARCOS = 6;
 
-	private GuiTablero guiTablero = null;            // El juego se encarga de crear y modificar la interfaz gráfica
-	private Partida partida = null;                 // Objeto con los datos de la partida en juego
+	private GuiTablero guiTablero = null; // El juego se encarga de crear y
+											// modificar la interfaz gráfica
+	private Partida partida = null; // Objeto con los datos de la partida en
+									// juego
 
 	/**
-	 * Atributos de la partida guardados en el juego para simplificar su implementación
+	 * Atributos de la partida guardados en el juego para simplificar su
+	 * implementación
 	 */
 	private int quedan = NUMBARCOS, disparos = 0;
 
@@ -40,7 +43,8 @@ public class Juego {
 	} // end main
 
 	/**
-	 * Lanza una nueva hebra que crea la primera partida y dibuja la interfaz grafica: tablero
+	 * Lanza una nueva hebra que crea la primera partida y dibuja la interfaz
+	 * grafica: tablero
 	 */
 	private void ejecuta() {
 		// Instancia la primera partida
@@ -55,15 +59,18 @@ public class Juego {
 	} // end ejecuta
 
 	/******************************************************************************************/
-	/*********************  CLASE INTERNA GuiTablero   ****************************************/
+	/*********************
+	 * CLASE INTERNA GuiTablero
+	 ****************************************/
 	/******************************************************************************************/
 	private class GuiTablero {
 
 		private int numFilas, numColumnas;
 
-		private JFrame frame = null;        // Tablero de juego
-		private JLabel estado = null;       // Texto en el panel de estado
-		private JButton buttons[][] = null; // Botones asociados a las casillas de la partida
+		private JFrame frame = null; // Tablero de juego
+		private JLabel estado = null; // Texto en el panel de estado
+		private JButton buttons[][] = null; // Botones asociados a las casillas
+											// de la partida
 
 		/**
 		 * Constructor de una tablero dadas sus dimensiones
@@ -111,21 +118,23 @@ public class Juego {
 		} // end anyadeMenu
 
 		/**
-		 * Anyade el panel con las casillas del mar y sus etiquetas.
-		 * Cada casilla sera un boton con su correspondiente escuchador
+		 * Anyade el panel con las casillas del mar y sus etiquetas. Cada
+		 * casilla sera un boton con su correspondiente escuchador
 		 *
-		 * @param nf numero de filas
-		 * @param nc numero de columnas
+		 * @param nf
+		 *            numero de filas
+		 * @param nc
+		 *            numero de columnas
 		 */
 		private void anyadeGrid(int nf, int nc) {
-			// POR IMPLEMENTAR
+			// TODO anyadeGrid
 		} // end anyadeGrid
-
 
 		/**
 		 * Anyade el panel de estado al tablero
 		 *
-		 * @param cadena cadena inicial del panel de estado
+		 * @param cadena
+		 *            cadena inicial del panel de estado
 		 */
 		private void anyadePanelEstado(String cadena) {
 			JPanel panelEstado = new JPanel();
@@ -138,7 +147,8 @@ public class Juego {
 		/**
 		 * Cambia la cadena mostrada en el panel de estado
 		 *
-		 * @param cadenaEstado nuevo estado
+		 * @param cadenaEstado
+		 *            nuevo estado
 		 */
 		public void cambiaEstado(String cadenaEstado) {
 			estado.setText(cadenaEstado);
@@ -148,25 +158,46 @@ public class Juego {
 		 * Muestra la solucion de la partida y marca la partida como finalizada
 		 */
 		public void muestraSolucion() {
-			// POR IMPLEMENTAR
-		} // end muestraSolucion
+			// TODO muestraSolucion
+			for (JButton[] botonM : buttons)
+				for (JButton boton : botonM)
+					pintaBoton(boton, new Color(0, 0, 255));
 
+			for (String barco : partida.getSolucion()) {
+				String[] barcoT = barco.split("#");
+				for (int i = 0; i > Integer.parseInt(barcoT[3]); i++) {
+					if (barcoT[2] == "V") {
+						pintaBoton(buttons[Integer.parseInt(barcoT[0])][Integer.parseInt(barcoT[1] + i)],
+								new Color(255, 0, 255));
+					} else {
+						pintaBoton(buttons[Integer.parseInt(barcoT[0] + i)][Integer.parseInt(barcoT[1])],
+								new Color(255, 0, 255));
+					}
+				}
+			}
+
+		} // end
+			// muestraSolucion
 
 		/**
 		 * Pinta un barco como hundido en el tablero
 		 *
-		 * @param cadenaBarco cadena con los datos del barco codifificados como
-		 *                    "filaInicial#columnaInicial#orientacion#tamanyo"
+		 * @param cadenaBarco
+		 *            cadena con los datos del barco codifificados como
+		 *            "filaInicial#columnaInicial#orientacion#tamanyo"
 		 */
 		public void pintaBarcoHundido(String cadenaBarco) {
-			// POR IMPLEMENTAR
+			// TODO pintaBarcoHundido
+
 		} // end pintaBarcoHundido
 
 		/**
 		 * Pinta un botón de un color dado
 		 *
-		 * @param b     boton a pintar
-		 * @param color color a usar
+		 * @param b
+		 *            boton a pintar
+		 * @param color
+		 *            color a usar
 		 */
 		public void pintaBoton(JButton b, Color color) {
 			b.setBackground(color);
@@ -195,11 +226,12 @@ public class Juego {
 			frame.dispose();
 		} // end liberaRecursos
 
-
 	} // end class GuiTablero
 
 	/******************************************************************************************/
-	/*********************  CLASE INTERNA MenuListener ****************************************/
+	/*********************
+	 * CLASE INTERNA MenuListener
+	 ****************************************/
 	/******************************************************************************************/
 
 	/**
@@ -218,19 +250,20 @@ public class Juego {
 
 			} else if (texto.equals("Salir")) {
 
-
 			} // end actionPerformed
 
 		} // end class MenuListener
 
-
 		/******************************************************************************************/
-		/*********************  CLASE INTERNA ButtonListener **************************************/
+		/*********************
+		 * CLASE INTERNA ButtonListener
+		 **************************************/
 		/******************************************************************************************/
 		/**
-		 * Clase interna que escucha cada uno de los botones del tablero
-		 * Para poder identificar el boton que ha generado el evento se pueden usar las propiedades
-		 * de los componentes, apoyandose en los metodos putClientProperty y getClientProperty
+		 * Clase interna que escucha cada uno de los botones del tablero Para
+		 * poder identificar el boton que ha generado el evento se pueden usar
+		 * las propiedades de los componentes, apoyandose en los metodos
+		 * putClientProperty y getClientProperty
 		 */
 		private class ButtonListener implements ActionListener {
 
