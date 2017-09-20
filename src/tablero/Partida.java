@@ -70,6 +70,7 @@ public class Partida {
     			return -3;
     		} else {
     			mar[f][c] = -2;
+
     			return -2;
     		}
     	}

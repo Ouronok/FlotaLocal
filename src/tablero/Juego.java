@@ -238,7 +238,7 @@ public class Juego {
 			}
 				
 
-		} // end pintaBarcoHundido
+		 // end pintaBarcoHundido
 
 		/**
 		 * Pinta un botón de un color dado
