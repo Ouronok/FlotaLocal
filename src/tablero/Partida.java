@@ -60,6 +60,7 @@ public class Partida {
     	default:
     		if(barcos.get(mar[f][c]).tocaBarco()) {
     			Barco hundido = barcos.get(mar[f][c]);
+    			int id = mar[f][c];
     			for(int i=0;i>hundido.getTamanyo();i++) {
     				if(hundido.getOrientacion()=='V') {
     					mar[hundido.getFilaInicial()][hundido.getColumnaInicial()+i] = -3;
@@ -67,10 +68,10 @@ public class Partida {
     					mar[hundido.getFilaInicial()+i][hundido.getColumnaInicial()] = -3;
     				}
     			}
-    			return -3;
+    			quedan--;
+    			return id;
     		} else {
     			mar[f][c] = -2;
-
     			return -2;
     		}
     	}
@@ -215,4 +216,7 @@ public class Partida {
         return resultado;
     }
 
+    public int getQuedan() {
+        return quedan;
+    }
 } // end class Partida

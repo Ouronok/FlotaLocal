@@ -191,7 +191,7 @@ public class Juego {
 
 			for (String barco : partida.getSolucion()) {
 				String[] barcoT = barco.split("#");
-				for (int i = 0; i > Integer.parseInt(barcoT[3]); i++) {
+				for (int i = 0; i < Integer.parseInt(barcoT[3]); i++) {
 					if (barcoT[2] == "V") {
 						pintaBoton(buttons[Integer.parseInt(barcoT[0])][Integer.parseInt(barcoT[1] + i)],
 								new Color(255, 0, 255));
@@ -222,20 +222,16 @@ public class Juego {
 			int tamaño = Integer.parseInt(partes[3]);
 			
 			
-			if (orientacion == "V"){
-				int cont = fInicial;
-				while(cont < tamaño){
-					pintaBoton(buttons[cont][cInicial], new Color(255,0,0));
-					cont++;
+			if (orientacion == "H"){
+				for(int i = 0;i<tamaño;i++){
+					pintaBoton(buttons[fInicial+i][cInicial], new Color(255,0,0));
 				}
 			} else {
-				int cont = cInicial;
-				while(cont < tamaño){
-					pintaBoton(buttons[fInicial][cont], new Color(255,0,0));
-					cont++;
-					}
-				}
-			}
+				for(int i = 0;i<tamaño;i++){
+					pintaBoton(buttons[fInicial][cInicial+i], new Color(255,0,0));
+                }
+            }
+        }
 				
 
 		 // end pintaBarcoHundido
@@ -323,7 +319,23 @@ public class Juego {
 			JButton boton = (JButton) e.getSource();
 			int fila = (int) boton.getClientProperty("fila");
 			int columna = (int) boton.getClientProperty("columna");
-			partida.pruebaCasilla(fila, columna);
+		    int id = partida.pruebaCasilla(fila, columna);
+			switch(id){
+                case -1:
+                    guiTablero.pintaBoton(boton, new Color(0, 0, 255));
+                    break;
+                case -2:
+                    guiTablero.pintaBoton(boton, new Color(255, 152, 0));
+                    break;
+                default:
+                    guiTablero.pintaBarcoHundido(partida.getBarco(id));
+                    if (partida.getQuedan()==0){
+                        guiTablero.cambiaEstado("Game Over con disparos: ");
+                    }
+
+
+            }
+
 		} // end actionPerformed
 
 	} // end class ButtonListener
