@@ -96,7 +96,7 @@ public class Juego {
 		/**
 		 * Anyade el menu de opciones del juego y le asocia un escuchador
 		 */
-		private void anyadeMenu() {
+		private void anyadeMenu() { //DONE
 			MenuListener mlist = new MenuListener();
 			JMenuBar menuBar;
 			JMenu menu;
@@ -126,7 +126,7 @@ public class Juego {
 		 * @param nc
 		 *            numero de columnas
 		 */
-		private void anyadeGrid(int nf, int nc) {
+		private void anyadeGrid(int nf, int nc) { //DONE
 			buttons = new JButton[nf][nc];
 			ButtonListener blist = new ButtonListener();
 			GridLayout centroLay = new GridLayout(nf + 1, nc + 2);
@@ -162,7 +162,7 @@ public class Juego {
 		 * @param cadena
 		 *            cadena inicial del panel de estado
 		 */
-		private void anyadePanelEstado(String cadena) {
+		private void anyadePanelEstado(String cadena) { //DONE
 			JPanel panelEstado = new JPanel();
 			estado = new JLabel(cadena);
 			panelEstado.add(estado);
@@ -176,15 +176,14 @@ public class Juego {
 		 * @param cadenaEstado
 		 *            nuevo estado
 		 */
-		public void cambiaEstado(String cadenaEstado) {
+		public void cambiaEstado(String cadenaEstado) { //DONE
 			estado.setText(cadenaEstado);
 		} // end cambiaEstado
 
 		/**
 		 * Muestra la solucion de la partida y marca la partida como finalizada
 		 */
-		public void muestraSolucion() {
-			// TODO muestraSolucion
+		public void muestraSolucion() { // TODO muestraSolucion
 			for (JButton[] botonM : buttons)
 				for (JButton boton : botonM)
 					pintaBoton(boton, new Color(0, 255, 255));
@@ -226,7 +225,7 @@ public class Juego {
 			String orientacion = partes[2];
 			int tamaño = Integer.parseInt(partes[3]);
 			
-			if (orientacion == "V"){
+			if (orientacion.equals("V")){
 				for(int i = 0;i<tamaño;i++){
 					pintaBoton(buttons[fInicial+i][cInicial], new Color(255,0,0));
 				}
