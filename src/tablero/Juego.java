@@ -226,8 +226,7 @@ public class Juego {
 			String orientacion = partes[2];
 			int tamaño = Integer.parseInt(partes[3]);
 			
-			
-			if (orientacion == "H"){
+			if (orientacion == "V"){
 				for(int i = 0;i<tamaño;i++){
 					pintaBoton(buttons[fInicial+i][cInicial], new Color(255,0,0));
 				}
