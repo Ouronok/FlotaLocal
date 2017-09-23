@@ -96,7 +96,7 @@ public class Juego {
 		/**
 		 * Anyade el menu de opciones del juego y le asocia un escuchador
 		 */
-		private void anyadeMenu() { //DONE
+		private void anyadeMenu() { // DONE
 			MenuListener mlist = new MenuListener();
 			JMenuBar menuBar;
 			JMenu menu;
@@ -118,15 +118,15 @@ public class Juego {
 		} // end anyadeMenu
 
 		/**
-		 * Anyade el panel con las casillas del mar y sus etiquetas. Cada
-		 * casilla sera un boton con su correspondiente escuchador
+		 * Anyade el panel con las casillas del mar y sus etiquetas. Cada casilla sera
+		 * un boton con su correspondiente escuchador
 		 *
 		 * @param nf
 		 *            numero de filas
 		 * @param nc
 		 *            numero de columnas
 		 */
-		private void anyadeGrid(int nf, int nc) { //DONE
+		private void anyadeGrid(int nf, int nc) { // DONE
 			buttons = new JButton[nf][nc];
 			ButtonListener blist = new ButtonListener();
 			GridLayout centroLay = new GridLayout(nf + 1, nc + 2);
@@ -146,6 +146,7 @@ public class Juego {
 					buttons[i][n].addActionListener(blist);
 					buttons[i][n].putClientProperty("fila", i);
 					buttons[i][n].putClientProperty("columna", n);
+					buttons[i][n].putClientProperty("estado", 0);
 					centro.add(buttons[i][n]);
 				}
 				centro.add(new JLabel(String.valueOf((letra)), SwingConstants.CENTER));
@@ -162,7 +163,7 @@ public class Juego {
 		 * @param cadena
 		 *            cadena inicial del panel de estado
 		 */
-		private void anyadePanelEstado(String cadena) { //DONE
+		private void anyadePanelEstado(String cadena) { // DONE
 			JPanel panelEstado = new JPanel();
 			estado = new JLabel(cadena);
 			panelEstado.add(estado);
@@ -176,7 +177,7 @@ public class Juego {
 		 * @param cadenaEstado
 		 *            nuevo estado
 		 */
-		public void cambiaEstado(String cadenaEstado) { //DONE
+		public void cambiaEstado(String cadenaEstado) { // DONE
 			estado.setText(cadenaEstado);
 		} // end cambiaEstado
 
@@ -194,14 +195,12 @@ public class Juego {
 				int colIni = Integer.parseInt(barcoT[1]);
 				String orientacion = barcoT[2];
 				int tamanyo = Integer.parseInt(barcoT[3]);
-				
-				for (int i = 0; i < tamanyo ; i++) {
+
+				for (int i = 0; i < tamanyo; i++) {
 					if (orientacion.equals("V")) {
-						pintaBoton(buttons[filaIni][colIni + i],
-								new Color(255, 0, 255));
+						pintaBoton(buttons[filaIni][colIni + i], new Color(255, 0, 255));
 					} else {
-						pintaBoton(buttons[filaIni][colIni],
-								new Color(255, 0, 255));
+						pintaBoton(buttons[filaIni][colIni], new Color(255, 0, 255));
 					}
 				}
 			}
@@ -216,28 +215,26 @@ public class Juego {
 		 *            cadena con los datos del barco codifificados como
 		 *            "filaInicial#columnaInicial#orientacion#tamanyo"
 		 */
-		public void pintaBarcoHundido(String cadenaBarco) {
-			// TODO pintaBarcoHundido
-			String []partes = cadenaBarco.split("#");
-			
+		public void pintaBarcoHundido(String cadenaBarco) { // DONE
+			String[] partes = cadenaBarco.split("#");
+
 			int fInicial = Integer.parseInt(partes[0]);
 			int cInicial = Integer.parseInt(partes[1]);
 			String orientacion = partes[2];
 			int tamaño = Integer.parseInt(partes[3]);
-			
-			if (orientacion.equals("V")){
-				for(int i = 0;i<tamaño;i++){
-					pintaBoton(buttons[fInicial+i][cInicial], new Color(255,0,0));
+
+			if (orientacion.equals("V")) {
+				for (int i = 0; i < tamaño; i++) {
+					pintaBoton(buttons[fInicial + i][cInicial], new Color(255, 0, 0));
 				}
 			} else {
-				for(int i = 0;i<tamaño;i++){
-					pintaBoton(buttons[fInicial][cInicial+i], new Color(255,0,0));
-                }
-            }
-        }
-				
+				for (int i = 0; i < tamaño; i++) {
+					pintaBoton(buttons[fInicial][cInicial + i], new Color(255, 0, 0));
+				}
+			}
+		}
 
-		 // end pintaBarcoHundido
+		// end pintaBarcoHundido
 
 		/**
 		 * Pinta un botón de un color dado
@@ -312,39 +309,41 @@ public class Juego {
 	/******************************************************************************************/
 	/**
 	 * Clase interna que escucha cada uno de los botones del tablero Para poder
-	 * identificar el boton que ha generado el evento se pueden usar las
-	 * propiedades de los componentes, apoyandose en los metodos
-	 * putClientProperty y getClientProperty
+	 * identificar el boton que ha generado el evento se pueden usar las propiedades
+	 * de los componentes, apoyandose en los metodos putClientProperty y
+	 * getClientProperty
 	 */
-	private class ButtonListener implements ActionListener {
+	private class ButtonListener implements ActionListener { //DONE
 
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			JButton boton = (JButton) e.getSource();
-			int fila = (int) boton.getClientProperty("fila");
-			int columna = (int) boton.getClientProperty("columna");
-		    int id = partida.pruebaCasilla(fila, columna);
-			switch(id){
-                case -1:
-                    guiTablero.pintaBoton(boton, new Color(0, 255, 255));
-                    break;
-                case -2:
-                    guiTablero.pintaBoton(boton, new Color(255, 152, 0));
-                    break;
-                default:
-                    guiTablero.pintaBarcoHundido(partida.getBarco(id));
-                    quedan --;
-                    if (quedan==0){
-                        guiTablero.cambiaEstado("Game Over con disparos: "+ disparos);
-                    }
 
+			if ((int) boton.getClientProperty("estado") == 0) {
+				int fila = (int) boton.getClientProperty("fila");
+				int columna = (int) boton.getClientProperty("columna");
+				int idBarco = partida.getIdBarco(fila, columna);
+				int id = partida.pruebaCasilla(fila, columna);
+				boton.putClientProperty("estado", 1);
+				
+				if (id == -1)
+					guiTablero.pintaBoton(boton, new Color(0, 255, 255));
+				else if (id == -2)
+					guiTablero.pintaBoton(boton, new Color(255, 152, 0));
+				else if (id == -3) {
+					guiTablero.pintaBoton(boton, new Color(255, 0, 0));
+					guiTablero.pintaBarcoHundido(partida.getBarco(idBarco));
+					quedan--;
+				}
+				disparos++;
 
-            }
-			disparos ++;
-			guiTablero.cambiaEstado("Intentos: " + disparos + "    Barcos restantes: " + quedan);
+				if (quedan == 0)
+					guiTablero.cambiaEstado("Game Over con disparos: " + disparos);
+				else
+					guiTablero.cambiaEstado("Intentos: " + disparos + "    Barcos restantes: " + quedan);
+			}
+			// end actionPerformed
 
-		} // end actionPerformed
-
-	} // end class ButtonListener
-
+		} // end class ButtonListener
+	}
 }// end class Juego

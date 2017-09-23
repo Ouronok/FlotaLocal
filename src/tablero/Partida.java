@@ -49,33 +49,24 @@ public class Partida {
 	 * @param   c   columna de la casilla
 	 * @return		resultado de marcar la casilla: AGUA, ya TOCADO, ya HUNDIDO, identidad del barco recien hundido
 	 */	
-    public int pruebaCasilla(int f, int c) {
-    	switch (mar[f][c]) {
-    	case -1:
-    		return -1;
-    	case -2:
-    		return -2;
-    	case -3:
-    		return -3;
-    	default:
-    		if(barcos.get(mar[f][c]).tocaBarco()) {
-    			Barco hundido = barcos.get(mar[f][c]);
-    			int id = mar[f][c];
-    			for(int i=0;i>hundido.getTamanyo();i++) {
-    				if(hundido.getOrientacion()=='V') {
-    					mar[hundido.getFilaInicial()][hundido.getColumnaInicial()+i] = -3;
-    				} else {
-    					mar[hundido.getFilaInicial()+i][hundido.getColumnaInicial()] = -3;
-    				}
-    			}
-    			quedan--;
-    			return id;
-    		} else {
-    			mar[f][c] = -2;
-    			return -2;
-    		}
-    	}
-    }
+	public int pruebaCasilla(int f, int c) { // DONE
+		int idBarco = mar[f][c];
+		if (mar[f][c] == -1 || mar[f][c] == -2 || mar[f][c] == -3) { // Comprobamos si hay agua, tocado o hundido
+			return mar[f][c];
+		}
+		if (mar[f][c] >= 0) { // Si hay barco
+			barcos.get(idBarco).tocaBarco();
+			mar[f][c] = -2;
+			if (barcos.get(idBarco).getTamanyo() == barcos.get(idBarco).getTocadas()) { // Si el barco se hunde
+				if(estanTodosTocados(idBarco))
+					hundir(idBarco);
+					return -3;
+			}
+			return -2; // barco solo tocado
+		}
+
+		return 0;
+	}
     
 
 	/**
@@ -103,9 +94,45 @@ public class Partida {
         return retVal;
 	}
     
+	public int getIdBarco(int fila, int col) {
+		return mar[fila][col];
+	}
+	
 
 	/********************************    METODOS PRIVADOS  ********************************************/
     
+	private boolean estanTodosTocados(int idBarco) {
+	boolean tocados = true;
+	int x = barcos.get(idBarco).getFilaInicial();
+	int y = barcos.get(idBarco).getColumnaInicial();
+
+	for (int i = 0; i < barcos.get(idBarco).getTamanyo(); i++) {
+		if (mar[x][y] == idBarco)
+			return false;
+		if (barcos.get(idBarco).getOrientacion() == 'H') {
+			y++;
+		} else {
+			x++;
+		}
+	}
+
+	return tocados;
+	}	
+
+	private void hundir(int idBarco){
+		int x = barcos.get(idBarco).getFilaInicial();
+		int y = barcos.get(idBarco).getColumnaInicial();
+	
+		for (int i = 0; i < barcos.get(idBarco).getTamanyo(); i++) {
+			mar[x][y]=-3;
+			if (barcos.get(idBarco).getOrientacion() == 'H') {
+				y++;
+			} else {
+				x++;
+			}
+		}
+	}
+	
 	/**
 	 * Inicia todas las casillas del tablero a AGUA
 	 */	
