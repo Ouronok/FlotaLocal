@@ -103,7 +103,7 @@ public class Juego {
 			JMenuItem mossol, npar, salir;
 
 			menuBar = new JMenuBar();
-			menu = new JMenu("Menu");
+			menu = new JMenu("Opciones");
 			menuBar.add(menu);
 			mossol = new JMenuItem("Mostrar Solucion");
 			npar = new JMenuItem("Nueva Partida");
@@ -187,16 +187,21 @@ public class Juego {
 			// TODO muestraSolucion
 			for (JButton[] botonM : buttons)
 				for (JButton boton : botonM)
-					pintaBoton(boton, new Color(0, 0, 255));
+					pintaBoton(boton, new Color(0, 255, 255));
 
 			for (String barco : partida.getSolucion()) {
 				String[] barcoT = barco.split("#");
-				for (int i = 0; i < Integer.parseInt(barcoT[3]); i++) {
-					if (barcoT[2] == "V") {
-						pintaBoton(buttons[Integer.parseInt(barcoT[0])][Integer.parseInt(barcoT[1] + i)],
+				int filaIni = Integer.parseInt(barcoT[0]);
+				int colIni = Integer.parseInt(barcoT[1]);
+				String orientacion = barcoT[2];
+				int tamanyo = Integer.parseInt(barcoT[3]);
+				
+				for (int i = 0; i < tamanyo ; i++) {
+					if (orientacion.equals("V")) {
+						pintaBoton(buttons[filaIni][colIni + i],
 								new Color(255, 0, 255));
 					} else {
-						pintaBoton(buttons[Integer.parseInt(barcoT[0] + i)][Integer.parseInt(barcoT[1])],
+						pintaBoton(buttons[filaIni][colIni],
 								new Color(255, 0, 255));
 					}
 				}
@@ -292,6 +297,7 @@ public class Juego {
 				guiTablero.muestraSolucion();
 			} else if (texto.equals("Nueva Partida")) {
 				partida = new Partida(NUMFILAS, NUMCOLUMNAS, NUMBARCOS);
+				guiTablero.limpiaTablero();
 
 			} else if (texto.equals("Salir")) {
 				System.exit(0);
@@ -322,7 +328,7 @@ public class Juego {
 		    int id = partida.pruebaCasilla(fila, columna);
 			switch(id){
                 case -1:
-                    guiTablero.pintaBoton(boton, new Color(0, 0, 255));
+                    guiTablero.pintaBoton(boton, new Color(0, 255, 255));
                     break;
                 case -2:
                     guiTablero.pintaBoton(boton, new Color(255, 152, 0));
