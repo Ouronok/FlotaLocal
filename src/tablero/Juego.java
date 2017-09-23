@@ -3,10 +3,8 @@ package tablero;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.GridLayout;
-import java.awt.MenuItem;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.KeyEvent;
 
 import javax.swing.*;
 
@@ -58,6 +56,15 @@ public class Juego {
 		});
 	} // end ejecuta
 
+    private void nuevaPartida() {
+        partida = new Partida(NUMFILAS, NUMCOLUMNAS, NUMBARCOS);
+        guiTablero.limpiaTablero();
+        quedan = NUMBARCOS;
+        disparos = 0;
+        guiTablero.cambiaEstado("Intentos: " + disparos + "    Barcos restantes: " + quedan);
+        guiTablero.setButtonsState(0);
+    }
+
 	/******************************************************************************************/
 	/*********************
 	 * CLASE INTERNA GuiTablero
@@ -79,7 +86,7 @@ public class Juego {
 			this.numFilas = numFilas;
 			this.numColumnas = numColumnas;
 			frame = new JFrame();
-			frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+			frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 		}
 
 		/**
@@ -101,7 +108,6 @@ public class Juego {
 			JMenuBar menuBar;
 			JMenu menu;
 			JMenuItem mossol, npar, salir;
-
 			menuBar = new JMenuBar();
 			menu = new JMenu("Opciones");
 			menuBar.add(menu);
@@ -187,6 +193,7 @@ public class Juego {
 		public void muestraSolucion() { // TODO muestraSolucion
 			for (int i = 0; i < numFilas; i++) {
 				for (int j = 0; j < numColumnas; j++) {
+                    buttons[i][j].putClientProperty("estado",1);
 					int casillaId = partida.pruebaCasilla(i, j);
 					if (casillaId == -1)
 						guiTablero.pintaBoton(buttons[i][j], Color.CYAN);
@@ -196,6 +203,7 @@ public class Juego {
 						guiTablero.pintaBoton(buttons[i][j], Color.MAGENTA);
 
 				}
+
 			}
 
 		} // end
@@ -264,7 +272,14 @@ public class Juego {
 			frame.dispose();
 		} // end liberaRecursos
 
-	} // end class GuiTablero
+        private void setButtonsState(int valor) {
+		    for(JButton[] bvec : buttons){
+		        for(JButton bac : bvec){
+		            bac.putClientProperty("estado",valor);
+                }
+            }
+        }
+    } // end class GuiTablero
 
 	/******************************************************************************************/
 	/*********************
@@ -284,8 +299,7 @@ public class Juego {
 			if (texto.equals("Mostrar Solucion")) {
 				guiTablero.muestraSolucion();
 			} else if (texto.equals("Nueva Partida")) {
-				partida = new Partida(NUMFILAS, NUMCOLUMNAS, NUMBARCOS);
-				guiTablero.limpiaTablero();
+                nuevaPartida();
 
 			} else if (texto.equals("Salir")) {
 				System.exit(0);
@@ -295,7 +309,9 @@ public class Juego {
 
 	} // end class MenuListener
 
-	/******************************************************************************************/
+
+
+    /******************************************************************************************/
 	/*********************
 	 * CLASE INTERNA ButtonListener
 	 **************************************/
@@ -313,27 +329,29 @@ public class Juego {
 			JButton boton = (JButton) e.getSource();
 
 			if ((int) boton.getClientProperty("estado") == 0) {
-				int fila = (int) boton.getClientProperty("fila");
-				int columna = (int) boton.getClientProperty("columna");
-				int idBarco = partida.getIdBarco(fila, columna);
-				int id = partida.pruebaCasilla(fila, columna);
-				boton.putClientProperty("estado", 1);
+                int fila = (int) boton.getClientProperty("fila");
+                int columna = (int) boton.getClientProperty("columna");
+                int idBarco = partida.getIdBarco(fila, columna);
+                int id = partida.pruebaCasilla(fila, columna);
+                boton.putClientProperty("estado", 1);
 
-				if (id == -1)
-					guiTablero.pintaBoton(boton, Color.CYAN);
-				else if (id == -2)
-					guiTablero.pintaBoton(boton, Color.ORANGE);
-				else if (id == -3) {
-					guiTablero.pintaBoton(boton, Color.RED);
-					guiTablero.pintaBarcoHundido(partida.getBarco(idBarco));
-					quedan--;
-				}
-				disparos++;
+                if (id == -1)
+                    guiTablero.pintaBoton(boton, Color.CYAN);
+                else if (id == -2)
+                    guiTablero.pintaBoton(boton, Color.ORANGE);
+                else if (id == -3) {
+                    guiTablero.pintaBoton(boton, Color.RED);
+                    guiTablero.pintaBarcoHundido(partida.getBarco(idBarco));
+                    quedan--;
+                }
+                disparos++;
 
-				if (quedan == 0)
-					guiTablero.cambiaEstado("Game Over con disparos: " + disparos);
-				else
-					guiTablero.cambiaEstado("Intentos: " + disparos + "    Barcos restantes: " + quedan);
+                if (quedan == 0) {
+                    guiTablero.cambiaEstado("Game Over con disparos: " + disparos);
+                    guiTablero.setButtonsState(1);
+                } else {
+                    guiTablero.cambiaEstado("Intentos: " + disparos + "    Barcos restantes: " + quedan);
+                }
 			}
 			// end actionPerformed
 
