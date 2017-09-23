@@ -216,7 +216,4 @@ public class Partida {
         return resultado;
     }
 
-    public int getQuedan() {
-        return quedan;
-    }
 } // end class Partida

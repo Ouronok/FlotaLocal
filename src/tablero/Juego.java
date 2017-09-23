@@ -334,12 +334,15 @@ public class Juego {
                     break;
                 default:
                     guiTablero.pintaBarcoHundido(partida.getBarco(id));
-                    if (partida.getQuedan()==0){
-                        guiTablero.cambiaEstado("Game Over con disparos: ");
+                    quedan --;
+                    if (quedan==0){
+                        guiTablero.cambiaEstado("Game Over con disparos: "+ disparos);
                     }
 
 
             }
+			disparos ++;
+			guiTablero.cambiaEstado("Intentos: " + disparos + "    Barcos restantes: " + quedan);
 
 		} // end actionPerformed
 
