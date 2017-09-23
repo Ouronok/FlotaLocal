@@ -185,23 +185,16 @@ public class Juego {
 		 * Muestra la solucion de la partida y marca la partida como finalizada
 		 */
 		public void muestraSolucion() { // TODO muestraSolucion
-			for (JButton[] botonM : buttons)
-				for (JButton boton : botonM)
-					pintaBoton(boton, new Color(0, 255, 255));
+			for (int i = 0; i < numFilas; i++) {
+				for (int j = 0; j < numColumnas; j++) {
+					int casillaId = partida.pruebaCasilla(i, j);
+					if (casillaId == -1)
+						guiTablero.pintaBoton(buttons[i][j], Color.CYAN);
+					else if (casillaId == -2)
+						guiTablero.pintaBoton(buttons[i][j], Color.MAGENTA);
+					else if (casillaId == -3)
+						guiTablero.pintaBoton(buttons[i][j], Color.MAGENTA);
 
-			for (String barco : partida.getSolucion()) {
-				String[] barcoT = barco.split("#");
-				int filaIni = Integer.parseInt(barcoT[0]);
-				int colIni = Integer.parseInt(barcoT[1]);
-				String orientacion = barcoT[2];
-				int tamanyo = Integer.parseInt(barcoT[3]);
-
-				for (int i = 0; i < tamanyo; i++) {
-					if (orientacion.equals("V")) {
-						pintaBoton(buttons[filaIni][colIni + i], new Color(255, 0, 255));
-					} else {
-						pintaBoton(buttons[filaIni][colIni], new Color(255, 0, 255));
-					}
 				}
 			}
 
@@ -221,15 +214,15 @@ public class Juego {
 			int fInicial = Integer.parseInt(partes[0]);
 			int cInicial = Integer.parseInt(partes[1]);
 			String orientacion = partes[2];
-			int tamaño = Integer.parseInt(partes[3]);
+			int tamayo = Integer.parseInt(partes[3]);
 
 			if (orientacion.equals("V")) {
-				for (int i = 0; i < tamaño; i++) {
-					pintaBoton(buttons[fInicial + i][cInicial], new Color(255, 0, 0));
+				for (int i = 0; i < tamayo; i++) {
+					pintaBoton(buttons[fInicial + i][cInicial], Color.RED);
 				}
 			} else {
-				for (int i = 0; i < tamaño; i++) {
-					pintaBoton(buttons[fInicial][cInicial + i], new Color(255, 0, 0));
+				for (int i = 0; i < tamayo; i++) {
+					pintaBoton(buttons[fInicial][cInicial + i], Color.RED);
 				}
 			}
 		}
@@ -313,7 +306,7 @@ public class Juego {
 	 * de los componentes, apoyandose en los metodos putClientProperty y
 	 * getClientProperty
 	 */
-	private class ButtonListener implements ActionListener { //DONE
+	private class ButtonListener implements ActionListener { // DONE
 
 		@Override
 		public void actionPerformed(ActionEvent e) {
@@ -325,13 +318,13 @@ public class Juego {
 				int idBarco = partida.getIdBarco(fila, columna);
 				int id = partida.pruebaCasilla(fila, columna);
 				boton.putClientProperty("estado", 1);
-				
+
 				if (id == -1)
-					guiTablero.pintaBoton(boton, new Color(0, 255, 255));
+					guiTablero.pintaBoton(boton, Color.CYAN);
 				else if (id == -2)
-					guiTablero.pintaBoton(boton, new Color(255, 152, 0));
+					guiTablero.pintaBoton(boton, Color.ORANGE);
 				else if (id == -3) {
-					guiTablero.pintaBoton(boton, new Color(255, 0, 0));
+					guiTablero.pintaBoton(boton, Color.RED);
 					guiTablero.pintaBarcoHundido(partida.getBarco(idBarco));
 					quedan--;
 				}
