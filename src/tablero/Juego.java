@@ -189,7 +189,7 @@ public class Juego {
 		/**
 		 * Muestra la solucion de la partida y marca la partida como finalizada
 		 */
-		public void muestraSolucion() { // TODO muestraSolucion
+		public void muestraSolucion() { // DONE muestraSolucion
 			for (int i = 0; i < numFilas; i++) {
 				for (int j = 0; j < numColumnas; j++) {
 					int casillaId = partida.pruebaCasilla(i, j);
@@ -322,7 +322,7 @@ public class Juego {
 		public void actionPerformed(ActionEvent e) {
 			JButton boton = (JButton) e.getSource();
 
-			if (quedan > 0 && boton.getBackground().equals(new JButton().getBackground())) {
+			if (quedan > 0 && boton.getBackground().equals(new Color(238,238,238))) {
                 int fila = (int) boton.getClientProperty("fila");
                 int columna = (int) boton.getClientProperty("columna");
                 int idBarco = partida.getIdBarco(fila, columna);
