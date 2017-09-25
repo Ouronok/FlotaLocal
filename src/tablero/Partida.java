@@ -131,6 +131,7 @@ public class Partida {
 				x++;
 			}
 		}
+		quedan--;
 	}
 	
 	/**

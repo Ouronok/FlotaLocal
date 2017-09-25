@@ -62,7 +62,7 @@ public class Juego {
         quedan = NUMBARCOS;
         disparos = 0;
         guiTablero.cambiaEstado("Intentos: " + disparos + "    Barcos restantes: " + quedan);
-        guiTablero.setButtonsState(0);
+
     }
 
 	/******************************************************************************************/
@@ -152,7 +152,6 @@ public class Juego {
 					buttons[i][n].addActionListener(blist);
 					buttons[i][n].putClientProperty("fila", i);
 					buttons[i][n].putClientProperty("columna", n);
-					buttons[i][n].putClientProperty("estado", 0);
 					centro.add(buttons[i][n]);
 				}
 				centro.add(new JLabel(String.valueOf((letra)), SwingConstants.CENTER));
@@ -193,7 +192,6 @@ public class Juego {
 		public void muestraSolucion() { // TODO muestraSolucion
 			for (int i = 0; i < numFilas; i++) {
 				for (int j = 0; j < numColumnas; j++) {
-                    buttons[i][j].putClientProperty("estado",1);
 					int casillaId = partida.pruebaCasilla(i, j);
 					if (casillaId == -1)
 						guiTablero.pintaBoton(buttons[i][j], Color.CYAN);
@@ -272,13 +270,9 @@ public class Juego {
 			frame.dispose();
 		} // end liberaRecursos
 
-        private void setButtonsState(int valor) {
-		    for(JButton[] bvec : buttons){
-		        for(JButton bac : bvec){
-		            bac.putClientProperty("estado",valor);
-                }
-            }
-        }
+
+
+
     } // end class GuiTablero
 
 	/******************************************************************************************/
@@ -328,13 +322,11 @@ public class Juego {
 		public void actionPerformed(ActionEvent e) {
 			JButton boton = (JButton) e.getSource();
 
-			if ((int) boton.getClientProperty("estado") == 0) {
+			if (quedan > 0 && boton.getBackground().equals(new JButton().getBackground())) {
                 int fila = (int) boton.getClientProperty("fila");
                 int columna = (int) boton.getClientProperty("columna");
                 int idBarco = partida.getIdBarco(fila, columna);
                 int id = partida.pruebaCasilla(fila, columna);
-                boton.putClientProperty("estado", 1);
-
                 if (id == -1)
                     guiTablero.pintaBoton(boton, Color.CYAN);
                 else if (id == -2)
@@ -348,7 +340,7 @@ public class Juego {
 
                 if (quedan == 0) {
                     guiTablero.cambiaEstado("Game Over con disparos: " + disparos);
-                    guiTablero.setButtonsState(1);
+
                 } else {
                     guiTablero.cambiaEstado("Intentos: " + disparos + "    Barcos restantes: " + quedan);
                 }
