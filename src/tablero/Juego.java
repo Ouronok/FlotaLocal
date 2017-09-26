@@ -78,7 +78,6 @@ public class Juego {
 		private JLabel estado = null; // Texto en el panel de estado
 		private JButton buttons[][] = null; // Botones asociados a las casillas
 											// de la partida
-
 		/**
 		 * Constructor de una tablero dadas sus dimensiones
 		 */
