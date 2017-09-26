@@ -19,8 +19,7 @@ public class Juego {
 	 */
 	public static final int NUMFILAS = 8, NUMCOLUMNAS = 8, NUMBARCOS = 6;
 
-	private GuiTablero guiTablero = null; // El juego se encarga de crear y
-											// modificar la interfaz gráfica
+	private GuiTablero guiTablero = null;
 	private Partida partida = null; // Objeto con los datos de la partida en
 									// juego
 
@@ -56,8 +55,9 @@ public class Juego {
 		});
 	} // end ejecuta
 
-    private void nuevaPartida() {
+    private void nuevaPartida() { //Se le llama cada vez que le das al boton
         partida = new Partida(NUMFILAS, NUMCOLUMNAS, NUMBARCOS);
+        //Resetea el juego a partir de aqui
         guiTablero.limpiaTablero();
         quedan = NUMBARCOS;
         disparos = 0;
@@ -102,7 +102,7 @@ public class Juego {
 		/**
 		 * Anyade el menu de opciones del juego y le asocia un escuchador
 		 */
-		private void anyadeMenu() { // DONE
+		private void anyadeMenu() {
 			MenuListener mlist = new MenuListener();
 			JMenuBar menuBar;
 			JMenu menu;
@@ -131,7 +131,7 @@ public class Juego {
 		 * @param nc
 		 *            numero de columnas
 		 */
-		private void anyadeGrid(int nf, int nc) { // DONE
+		private void anyadeGrid(int nf, int nc) {
 			buttons = new JButton[nf][nc];
 			ButtonListener blist = new ButtonListener();
 			GridLayout centroLay = new GridLayout(nf + 1, nc + 2);
@@ -188,7 +188,7 @@ public class Juego {
 		/**
 		 * Muestra la solucion de la partida y marca la partida como finalizada
 		 */
-		public void muestraSolucion() { // DONE muestraSolucion
+		public void muestraSolucion() { // Colorea casillas a mar y despues comprueba el id de cada casilla para pintarlo
 			for (int i = 0; i < numFilas; i++) {
 				for (int j = 0; j < numColumnas; j++) {
 					int casillaId = partida.pruebaCasilla(i, j);
@@ -203,8 +203,7 @@ public class Juego {
 
 			}
 
-		} // end
-			// muestraSolucion
+		} // end muestraSolucion
 
 		/**
 		 * Pinta un barco como hundido en el tablero
@@ -213,7 +212,7 @@ public class Juego {
 		 *            cadena con los datos del barco codifificados como
 		 *            "filaInicial#columnaInicial#orientacion#tamanyo"
 		 */
-		public void pintaBarcoHundido(String cadenaBarco) { // DONE
+		public void pintaBarcoHundido(String cadenaBarco) { // Una vez hundido se encarga de pintarlo segun orientacion
 			String[] partes = cadenaBarco.split("#");
 
 			int fInicial = Integer.parseInt(partes[0]);
@@ -286,14 +285,13 @@ public class Juego {
 	private class MenuListener implements ActionListener {
 
 		@Override
-		public void actionPerformed(ActionEvent e) {
+		public void actionPerformed(ActionEvent e) { //Segun elemento menu realiza accion
 			JMenuItem elem = (JMenuItem) e.getSource();
 			String texto = elem.getText();
 			if (texto.equals("Mostrar Solucion")) {
 				guiTablero.muestraSolucion();
 			} else if (texto.equals("Nueva Partida")) {
                 nuevaPartida();
-
 			} else if (texto.equals("Salir")) {
 				System.exit(0);
 			}
@@ -315,7 +313,7 @@ public class Juego {
 	 * de los componentes, apoyandose en los metodos putClientProperty y
 	 * getClientProperty
 	 */
-	private class ButtonListener implements ActionListener { // DONE
+	private class ButtonListener implements ActionListener { //Segun casilla la prueba si no ha sido ya tocada
 
 		@Override
 		public void actionPerformed(ActionEvent e) {
@@ -331,7 +329,6 @@ public class Juego {
                 else if (id == -2)
                     guiTablero.pintaBoton(boton, Color.ORANGE);
                 else if (id == -3) {
-                    guiTablero.pintaBoton(boton, Color.RED);
                     guiTablero.pintaBarcoHundido(partida.getBarco(idBarco));
                     quedan--;
                 }

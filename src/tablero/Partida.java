@@ -49,7 +49,7 @@ public class Partida {
 	 * @param   c   columna de la casilla
 	 * @return		resultado de marcar la casilla: AGUA, ya TOCADO, ya HUNDIDO, identidad del barco recien hundido
 	 */	
-	public int pruebaCasilla(int f, int c) { // DONE
+	public int pruebaCasilla(int f, int c) { // Cambia estado casilla y devuelve
 		int idBarco = mar[f][c];
 		if (mar[f][c] == -1 || mar[f][c] == -2 || mar[f][c] == -3) { // Comprobamos si hay agua, tocado o hundido
 			return mar[f][c];
@@ -101,8 +101,7 @@ public class Partida {
 
 	/********************************    METODOS PRIVADOS  ********************************************/
     
-	private boolean estanTodosTocados(int idBarco) {
-	boolean tocados = true;
+	private boolean estanTodosTocados(int idBarco) { //devuelve si todas pos barco estan tocadas
 	int x = barcos.get(idBarco).getFilaInicial();
 	int y = barcos.get(idBarco).getColumnaInicial();
 
@@ -116,10 +115,10 @@ public class Partida {
 		}
 	}
 
-	return tocados;
+	return true;
 	}	
 
-	private void hundir(int idBarco){
+	private void hundir(int idBarco){ //hunde el barco si todas sus posiciones han sido tocadas
 		int x = barcos.get(idBarco).getFilaInicial();
 		int y = barcos.get(idBarco).getColumnaInicial();
 	
