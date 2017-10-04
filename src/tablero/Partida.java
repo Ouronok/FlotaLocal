@@ -50,19 +50,17 @@ public class Partida {
 	 * @return		resultado de marcar la casilla: AGUA, ya TOCADO, ya HUNDIDO, identidad del barco recien hundido
 	 */	
 	public int pruebaCasilla(int f, int c) { // Cambia estado casilla y devuelve
-		int idBarco = mar[f][c];
-		if (mar[f][c] == -1 || mar[f][c] == -2 || mar[f][c] == -3) { // Comprobamos si hay agua, tocado o hundido
+		if (mar[f][c] <0 ) { // Comprobamos si hay agua, tocado o hundido
 			return mar[f][c];
 		}
 		if (mar[f][c] >= 0) { // Si hay barco
-			barcos.get(idBarco).tocaBarco();
-			mar[f][c] = -2;
-			if (barcos.get(idBarco).getTamanyo() == barcos.get(idBarco).getTocadas()) { // Si el barco se hunde
-				if(estanTodosTocados(idBarco))
+			int idBarco = mar[f][c];
+			mar[f][c] = TOCADO;
+			if (barcos.get(idBarco).tocaBarco()) { // Si el barco se hunde
 					hundir(idBarco);
-					return -3;
+					return idBarco;
 			}
-			return -2; // barco solo tocado
+			return TOCADO; // barco solo tocado
 		}
 
 		return 0;
@@ -93,31 +91,9 @@ public class Partida {
         }
         return retVal;
 	}
-    
-	public int getIdBarco(int fila, int col) {
-		return mar[fila][col];
-	}
-	
 
 	/********************************    METODOS PRIVADOS  ********************************************/
     
-	private boolean estanTodosTocados(int idBarco) { //devuelve si todas pos barco estan tocadas
-	int x = barcos.get(idBarco).getFilaInicial();
-	int y = barcos.get(idBarco).getColumnaInicial();
-
-	for (int i = 0; i < barcos.get(idBarco).getTamanyo(); i++) {
-		if (mar[x][y] == idBarco)
-			return false;
-		if (barcos.get(idBarco).getOrientacion() == 'H') {
-			y++;
-		} else {
-			x++;
-		}
-	}
-
-	return true;
-	}	
-
 	private void hundir(int idBarco){ //hunde el barco si todas sus posiciones han sido tocadas
 		int x = barcos.get(idBarco).getFilaInicial();
 		int y = barcos.get(idBarco).getColumnaInicial();

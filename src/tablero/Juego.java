@@ -55,20 +55,17 @@ public class Juego {
 		});
 	} // end ejecuta
 
-    private void nuevaPartida() { //Se le llama cada vez que le das al boton
-        partida = new Partida(NUMFILAS, NUMCOLUMNAS, NUMBARCOS);
-        //Resetea el juego a partir de aqui
-        guiTablero.limpiaTablero();
-        quedan = NUMBARCOS;
-        disparos = 0;
-        guiTablero.cambiaEstado("Intentos: " + disparos + "    Barcos restantes: " + quedan);
-
-    }
+	private void nuevaPartida() { // Se le llama cada vez que le das al boton
+		partida = new Partida(NUMFILAS, NUMCOLUMNAS, NUMBARCOS);
+		// Resetea el juego a partir de aqui
+		guiTablero.limpiaTablero();
+		quedan = NUMBARCOS;
+		disparos = 0;
+		guiTablero.cambiaEstado("Intentos: " + disparos + "    Barcos restantes: " + quedan);
+	}
 
 	/******************************************************************************************/
-	/*********************
-	 * CLASE INTERNA GuiTablero
-	 ****************************************/
+	/********************* * CLASE INTERNA GuiTablero * ***************************************/
 	/******************************************************************************************/
 	private class GuiTablero {
 
@@ -78,6 +75,7 @@ public class Juego {
 		private JLabel estado = null; // Texto en el panel de estado
 		private JButton buttons[][] = null; // Botones asociados a las casillas
 											// de la partida
+
 		/**
 		 * Constructor de una tablero dadas sus dimensiones
 		 */
@@ -102,7 +100,7 @@ public class Juego {
 		/**
 		 * Anyade el menu de opciones del juego y le asocia un escuchador
 		 */
-		private void anyadeMenu() {
+		private void anyadeMenu() { //COMENTAR
 			MenuListener mlist = new MenuListener();
 			JMenuBar menuBar;
 			JMenu menu;
@@ -123,15 +121,15 @@ public class Juego {
 		} // end anyadeMenu
 
 		/**
-		 * Anyade el panel con las casillas del mar y sus etiquetas. Cada casilla sera
-		 * un boton con su correspondiente escuchador
+		 * Anyade el panel con las casillas del mar y sus etiquetas. Cada
+		 * casilla sera un boton con su correspondiente escuchador
 		 *
 		 * @param nf
 		 *            numero de filas
 		 * @param nc
 		 *            numero de columnas
 		 */
-		private void anyadeGrid(int nf, int nc) {
+		private void anyadeGrid(int nf, int nc) { //COMENTAR
 			buttons = new JButton[nf][nc];
 			ButtonListener blist = new ButtonListener();
 			GridLayout centroLay = new GridLayout(nf + 1, nc + 2);
@@ -188,7 +186,8 @@ public class Juego {
 		/**
 		 * Muestra la solucion de la partida y marca la partida como finalizada
 		 */
-		public void muestraSolucion() { // Colorea casillas a mar y despues comprueba el id de cada casilla para pintarlo
+		public void muestraSolucion() { 
+		// Colorea casillas a mar y despues comprueba el id de cada casilla para pintarlo
 			for (int i = 0; i < numFilas; i++) {
 				for (int j = 0; j < numColumnas; j++) {
 					int casillaId = partida.pruebaCasilla(i, j);
@@ -196,7 +195,7 @@ public class Juego {
 						guiTablero.pintaBoton(buttons[i][j], Color.CYAN);
 					else if (casillaId == -2)
 						guiTablero.pintaBoton(buttons[i][j], Color.MAGENTA);
-					else if (casillaId == -3)
+					else
 						guiTablero.pintaBoton(buttons[i][j], Color.MAGENTA);
 
 				}
@@ -212,7 +211,8 @@ public class Juego {
 		 *            cadena con los datos del barco codifificados como
 		 *            "filaInicial#columnaInicial#orientacion#tamanyo"
 		 */
-		public void pintaBarcoHundido(String cadenaBarco) { // Una vez hundido se encarga de pintarlo segun orientacion
+		public void pintaBarcoHundido(String cadenaBarco) { 
+		// Una vez hundido se encarga de pintarlo segun orientacion
 			String[] partes = cadenaBarco.split("#");
 
 			int fInicial = Integer.parseInt(partes[0]);
@@ -268,15 +268,10 @@ public class Juego {
 			frame.dispose();
 		} // end liberaRecursos
 
-
-
-
-    } // end class GuiTablero
+	} // end class GuiTablero
 
 	/******************************************************************************************/
-	/*********************
-	 * CLASE INTERNA MenuListener
-	 ****************************************/
+	/********************* * CLASE INTERNA MenuListener * ***************************************/
 	/******************************************************************************************/
 
 	/**
@@ -285,14 +280,21 @@ public class Juego {
 	private class MenuListener implements ActionListener {
 
 		@Override
-		public void actionPerformed(ActionEvent e) { //Segun elemento menu realiza accion
+		public void actionPerformed(ActionEvent e) { // Segun elemento menu
+														// realiza accion
 			JMenuItem elem = (JMenuItem) e.getSource();
 			String texto = elem.getText();
 			if (texto.equals("Mostrar Solucion")) {
 				guiTablero.muestraSolucion();
 			} else if (texto.equals("Nueva Partida")) {
-                nuevaPartida();
+				partida = new Partida(NUMFILAS, NUMCOLUMNAS, NUMBARCOS);
+				// Resetea el juego a partir de aqui
+				guiTablero.limpiaTablero();
+				quedan = NUMBARCOS;
+				disparos = 0;
+				guiTablero.cambiaEstado("Intentos: " + disparos + "    Barcos restantes: " + quedan);
 			} else if (texto.equals("Salir")) {
+				guiTablero.liberaRecursos();
 				System.exit(0);
 			}
 
@@ -300,46 +302,46 @@ public class Juego {
 
 	} // end class MenuListener
 
-
-
-    /******************************************************************************************/
-	/*********************
-	 * CLASE INTERNA ButtonListener
-	 **************************************/
+	/******************************************************************************************/
+	/********************* * CLASE INTERNA ButtonListener * *************************************/
 	/******************************************************************************************/
 	/**
 	 * Clase interna que escucha cada uno de los botones del tablero Para poder
-	 * identificar el boton que ha generado el evento se pueden usar las propiedades
-	 * de los componentes, apoyandose en los metodos putClientProperty y
-	 * getClientProperty
+	 * identificar el boton que ha generado el evento se pueden usar las
+	 * propiedades de los componentes, apoyandose en los metodos
+	 * putClientProperty y getClientProperty
 	 */
-	private class ButtonListener implements ActionListener { //Segun casilla la prueba si no ha sido ya tocada
+	private class ButtonListener implements ActionListener { // Segun casilla la
+																// prueba si no
+																// ha sido ya
+																// tocada
 
 		@Override
 		public void actionPerformed(ActionEvent e) {
-			JButton boton = (JButton) e.getSource();
+			JButton boton = new JButton();
+			Color colorDefault = boton.getBackground();
+			boton = (JButton) e.getSource();
+			
+			if (quedan > 0 && boton.getBackground().equals(colorDefault)) {
+				int fila = (int) boton.getClientProperty("fila");
+				int columna = (int) boton.getClientProperty("columna");
+				int casilla = partida.pruebaCasilla(fila, columna);
+				if (casilla == -1)
+					guiTablero.pintaBoton(boton, Color.CYAN);
+				else if (casilla == -2)
+					guiTablero.pintaBoton(boton, Color.ORANGE);
+				else{
+					guiTablero.pintaBarcoHundido(partida.getBarco(casilla));
+					quedan--;
+				}
+				disparos++;
 
-			if (quedan > 0 && boton.getBackground().equals(new Color(238,238,238))) {
-                int fila = (int) boton.getClientProperty("fila");
-                int columna = (int) boton.getClientProperty("columna");
-                int idBarco = partida.getIdBarco(fila, columna);
-                int id = partida.pruebaCasilla(fila, columna);
-                if (id == -1)
-                    guiTablero.pintaBoton(boton, Color.CYAN);
-                else if (id == -2)
-                    guiTablero.pintaBoton(boton, Color.ORANGE);
-                else if (id == -3) {
-                    guiTablero.pintaBarcoHundido(partida.getBarco(idBarco));
-                    quedan--;
-                }
-                disparos++;
+				if (quedan == 0) {
+					guiTablero.cambiaEstado("Game Over con disparos: " + disparos);
 
-                if (quedan == 0) {
-                    guiTablero.cambiaEstado("Game Over con disparos: " + disparos);
-
-                } else {
-                    guiTablero.cambiaEstado("Intentos: " + disparos + "    Barcos restantes: " + quedan);
-                }
+				} else {
+					guiTablero.cambiaEstado("Intentos: " + disparos + "    Barcos restantes: " + quedan);
+				}
 			}
 			// end actionPerformed
 
