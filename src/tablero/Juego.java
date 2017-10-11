@@ -55,15 +55,6 @@ public class Juego {
 		});
 	} // end ejecuta
 
-	private void nuevaPartida() { // Se le llama cada vez que le das al boton
-		partida = new Partida(NUMFILAS, NUMCOLUMNAS, NUMBARCOS);
-		// Resetea el juego a partir de aqui
-		guiTablero.limpiaTablero();
-		quedan = NUMBARCOS;
-		disparos = 0;
-		guiTablero.cambiaEstado("Intentos: " + disparos + "    Barcos restantes: " + quedan);
-	}
-
 	/******************************************************************************************/
 	/********************* * CLASE INTERNA GuiTablero * ***************************************/
 	/******************************************************************************************/
