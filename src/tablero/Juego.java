@@ -179,19 +179,28 @@ public class Juego {
 		 */
 		public void muestraSolucion() { 
 		// Colorea casillas a mar y despues comprueba el id de cada casilla para pintarlo
-			for (int i = 0; i < numFilas; i++) {
-				for (int j = 0; j < numColumnas; j++) {
-					int casillaId = partida.pruebaCasilla(i, j);
-					if (casillaId == -1)
-						guiTablero.pintaBoton(buttons[i][j], Color.CYAN);
-					else if (casillaId == -2)
-						guiTablero.pintaBoton(buttons[i][j], Color.MAGENTA);
-					else
-						guiTablero.pintaBoton(buttons[i][j], Color.MAGENTA);
+			Color colorAzul = new Color(0, 100, 255);// clase Color de Java, utilizada para pintar botones
 
-				}
+			String[] cadenaBarcos;
 
+			cadenaBarcos = gestor.getSolucion();
+
+			int nf = this.numFilas;
+			int nc = this.numColumnas;
+			// pinto todos los botones de azul
+
+			for (int i = 0; i < nf; i++) {
+
+			    for (int j = 0; j < nc; j++) {
+				pintaBoton(buttons[i][j], colorAzul);
+
+			    }
 			}
+			for (String barco : cadenaBarcos) {
+
+			    pintaBarcoHundido(barco);// llamada a pintarBarcoHundido
+			}
+            
 
 		} // end muestraSolucion
 
